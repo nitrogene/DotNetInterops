@@ -15,6 +15,8 @@ int main(int argc, char** argv)
 	{
 		CustomCOMObject::ISaySomethingPtr pSaySomething;
 
+		// To be noted that the both client and com server must char the same bitness (in this example 64bits)
+		// otherwise, the CreateInstance will failed with a "Class is not registered" error.
 		auto hRes = pSaySomething.CreateInstance(__uuidof(CustomCOMObject::SaySomething));
 		if (FAILED(hRes))
 		{
