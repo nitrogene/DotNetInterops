@@ -12,7 +12,7 @@ namespace ManagedApplication
         {
             var wrapper = new NativeLibraryWrapper();
 
-            wrapper.DisplayMessage("MessageBox ivoked via C++/CLI", "Hello, world!");
+            wrapper.DisplayMessage("MessageBox invoked via C++/CLI", "Hello, world!");
         }
     }
 }
