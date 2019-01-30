@@ -35,6 +35,11 @@ This wrapper also contains the following function signature and implementation, 
 
 		static int MessageBox_(System::IntPtr hWnd, System::String^ text, System::String^ caption, unsigned int type);
 		
+There is also an example of creating a Runtime Callable Warpper to access COM services via using a reference to *Microsoft Shell controls and Automation*:
+
+		// Open a shell explorer via using Microsoft Shell controls and Automation com object
+		var shellClass = new Shell32.Shell();
+		shellClass.Open("");
 
 
 * **COM Object**
