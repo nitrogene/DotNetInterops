@@ -21,4 +21,8 @@ public:
 	~NativeLibraryWrapper();
 
 	void DisplayMessage(System::String^ from, System::String^ message);
+
+	static int MessageBox_(System::IntPtr hWnd, System::String^ text,
+		System::String^ caption, unsigned int type);
+
 };

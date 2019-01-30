@@ -1,3 +1,4 @@
+
 # DotNetInterops
 This is a collection of various sample projects associated to .net Interops:
 
@@ -29,6 +30,12 @@ This is a collection of various sample projects associated to .net Interops:
 
 	    this->p_NativeLibrary->DisplayMessage(nFrom, nMessage);
     }
+
+This wrapper also contains the following function signature and implementation, illustrating a call to *MessageBox* using *It Just Works mechanism*
+
+		static int MessageBox_(System::IntPtr hWnd, System::String^ text, System::String^ caption, unsigned int type);
+		
+
 
 * **COM Object**
 
@@ -73,6 +80,5 @@ Contains the **PInvoke** signature of **MessageBox**, defined in **user32.dll**:
         public static extern IntPtr MessageBox(int hWnd, String text,
         String caption, uint type);
     }
-    
     
 And also code heavily copied on [FileDialog.cs](https://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/FileDialog.cs), used in **ManagedOpenDialogBox**, for easier invocation of **COM Object FileOpenDialog**. 

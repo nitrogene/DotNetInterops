@@ -4,6 +4,7 @@
 
 #include "NativeLibraryWrapper.h"
 #include <msclr/marshal_cppstd.h>
+#include <vcclr.h>
 
 NativeLibraryWrapper::NativeLibraryWrapper()
 {
@@ -39,4 +40,19 @@ void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ 
 	auto nMessage = msclr::interop::marshal_as<std::wstring>(message);
 
 	this->p_NativeLibrary->DisplayMessage(nFrom, nMessage);
+}
+
+int NativeLibraryWrapper::MessageBox_(System::IntPtr hWnd, System::String^ text,
+	System::String^ caption, unsigned int type)
+{
+	auto textPtr = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(text);
+	auto captionPtr = System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(caption);
+	auto nativeHWnd = (HWND)hWnd.ToPointer();
+
+	auto ret = MessageBox(nativeHWnd, (LPCSTR)textPtr.ToPointer(), (LPCSTR)captionPtr.ToPointer(), type);
+
+	System::Runtime::InteropServices::Marshal::FreeHGlobal(textPtr);
+	System::Runtime::InteropServices::Marshal::FreeHGlobal(captionPtr);
+
+	return ret;
 }
