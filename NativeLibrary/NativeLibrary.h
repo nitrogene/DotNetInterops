@@ -4,5 +4,5 @@
 class NativeLibrary
 {
 public:
-	void DisplayMessage(const std::wstring& from, const std::wstring& message);
+	void DisplayMessage(const std::wstring& from, const std::wstring& message, std::wstring& answer);
 };

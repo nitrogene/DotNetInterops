@@ -8,25 +8,25 @@
 
 NativeLibraryWrapper::NativeLibraryWrapper()
 {
-	System::Console::WriteLine("NativeLibraryWrapper::NativeLibraryWrapper called");
+	System::Console::WriteLine("NativeLibraryWrapper::NativeLibraryWrapper() called");
 	// The native object is stored on the heap. To be noted that C++/CLI does not support smart pointers.
 	this->p_NativeLibrary = new NativeLibrary();
 }
 
 NativeLibraryWrapper::~NativeLibraryWrapper()
 {
-	System::Console::WriteLine("NativeLibraryWrapper::~NativeLibraryWrapper called");
+	System::Console::WriteLine("NativeLibraryWrapper::~NativeLibraryWrapper() called");
 	this->!NativeLibraryWrapper();
 }
 
 NativeLibraryWrapper::!NativeLibraryWrapper()
 {
-	System::Console::WriteLine("NativeLibraryWrapper::!NativeLibraryWrapper called");
+	System::Console::WriteLine("NativeLibraryWrapper::!NativeLibraryWrapper() called");
 	// No smart pointer, we have to deallocate the native object....
 	delete this->p_NativeLibrary;
 }
 
-void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ message)
+void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ message, [System::Runtime::InteropServices::Out] System::String^% answer)
 {
 	System::Console::WriteLine("NativeLibraryWrapper::DisplayMessage called");
 
@@ -38,8 +38,15 @@ void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ 
 
 	auto nFrom = msclr::interop::marshal_as<std::wstring>(from);
 	auto nMessage = msclr::interop::marshal_as<std::wstring>(message);
+	std::wstring nAnswer;
 
-	this->p_NativeLibrary->DisplayMessage(nFrom, nMessage);
+	this->p_NativeLibrary->DisplayMessage(nFrom, nMessage, nAnswer);
+
+	answer = msclr::interop::marshal_as<System::String^>(nAnswer);
+
+	System::String^ pStr = gcnew System::String("Stack");
+	System::String^ str("Heap");
+
 }
 
 int NativeLibraryWrapper::MessageBox_(System::IntPtr hWnd, System::String^ text,
