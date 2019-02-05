@@ -1,4 +1,5 @@
 
+
 # DotNetInterops
 This is a collection of various sample projects associated to .net Interops:
 
@@ -74,6 +75,30 @@ Please browse code to find usefull information. Some key points come into my min
             }
        }
     }
+*SimpleC* is a C# port of a trivial opengl application that can be found  [there](https://www.opengl.org/archives/resources/code/samples/glut_examples/examples/simple.c). It using OpengGL32 PInvokable signatures from [PInvoke.net ](https://www.pinvoke.net/default.aspx/opengl32/opengl32%20down%20load.html), and custom signatures for [freeglut ](http://freeglut.sourceforge.net/) which is an opensource port of glut. Let's take a simple example of signature:
+
+`void glutInit(int *argcp, char **argv);`
+
+The corresponding pinvokable signature is :
+
+    [DllImport("freeglut.dll", CallingConvention = CallingConvention.Winapi), SuppressUnmanagedCodeSecurity]
+    public static extern void glutInit(ref int argcp, String[] argv);
+
+A more complicated example ? Ok:
+
+    void glutReshapeFunc(void (*func)(int width, int height));
+
+This require to define a delegate: 
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void glutReshapeFuncDelegate(int width, int height);
+
+And then we can define a signature:
+
+    [DllImport("freeglut.dll", CallingConvention = CallingConvention.Winapi), SuppressUnmanagedCodeSecurity]
+    public static extern void glutReshapeFunc(glutReshapeFuncDelegate func);
+
+![enter image description here](https://lh3.googleusercontent.com/u0GPcJ1gKcF_I32h48VJTcUjctzjtkTQLwyuPmrhf6K14K8DrPjGoht-LxydW7NzjZPg-NCjW8Od)
 
 * **WinWrapper**
 
