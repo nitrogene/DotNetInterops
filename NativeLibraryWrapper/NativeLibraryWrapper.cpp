@@ -26,6 +26,26 @@ NativeLibraryWrapper::!NativeLibraryWrapper()
 	delete this->p_NativeLibrary;
 }
 
+interface class A
+{
+
+};
+
+ref class B:A
+{
+
+};
+
+ref class C:B
+{
+
+};
+
+ref class D
+{
+
+};
+
 void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ message, [System::Runtime::InteropServices::Out] System::String^% answer)
 {
 	System::Console::WriteLine("NativeLibraryWrapper::DisplayMessage called");
@@ -45,8 +65,18 @@ void NativeLibraryWrapper::DisplayMessage(System::String^ from, System::String^ 
 	answer = msclr::interop::marshal_as<System::String^>(nAnswer);
 
 	System::String^ pStr = gcnew System::String("Stack");
-	System::String^ str("Heap");
 
+	MyEnum^ pMyEnum = gcnew MyEnum();		// Heap
+	MyEnum  myENum;							// Stack 
+
+	B^ pB = gcnew B();
+	C^ pC = gcnew C();
+	A^ pA = (A^)pB;
+	A^ pA = safe_cast<A^>(pB);
+
+	C^ pC2 = dynamic_cast<C^>(pA);
+
+	D^ pD = static_cast<D^>(pA);
 }
 
 int NativeLibraryWrapper::MessageBox_(System::IntPtr hWnd, System::String^ text,
